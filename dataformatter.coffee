@@ -159,17 +159,17 @@ window.DataFormatter = # Saved functions for each pattern
              }
             }
             n=(Math.round(n*sign*#{frac_part})/#{frac_part}).toString().split('.');
-            res.value=DataFormatter.fillNumberPattern(parseInt(n[0]),'#{ptrn[1]}');
+            res.value=DataFormatter.fillNumberPattern(parseInt(n[0]),'#{ptrn[1]}')
             """
             if ptrn[2]
               digit_fun += """
-              '#{DataFormatter.locale.decimal_separator}'+
+              +'#{DataFormatter.locale.decimal_separator}'
               """
               if ptrn[3] then digit_fun += """
-              DataFormatter.fillNumberPattern(parseInt(n[1]),'#{ptrn[3]}','right')+
+              +DataFormatter.fillNumberPattern(parseInt(n[1] ? n[1] : 0),'#{ptrn[3]}','right')
               """
             digit_fun += """
-            'E'+(m>0?'-':'+')+DataFormatter.fillNumberPattern(Math.abs(m),'#{ptrn[4]}');
+            +'E'+(m>0?'-':'+')+DataFormatter.fillNumberPattern(Math.abs(m),'#{ptrn[4]}');
             """
           else
             factor = 1
@@ -302,7 +302,7 @@ window.DataFormatter = # Saved functions for each pattern
               if (mmmmm) return DataFormatter.locale.months_short[n.getMonth()][0];
               if (mmmm) return DataFormatter.locale.months[n.getMonth()];
               if (mmm) return DataFormatter.locale.months_short[n.getMonth()];
-              if (mm) m=n.getMonth()+1; return m<10 ? '0' + m : m;
+              if (mm) { m=n.getMonth()+1; return m<10 ? '0' + m : m; }
               if (m) return n.getMonth()+1;
               if (yyyy) return n.getFullYear();
               if (yy) return n.getFullYear().toString().substr(2);
